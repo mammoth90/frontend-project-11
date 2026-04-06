@@ -1,0 +1,20 @@
+name: main
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout working-directory
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install depencies
+        run: npm ci
+
+      - name: Start Vite Build
+        run: make build
+

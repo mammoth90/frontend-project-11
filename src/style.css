@@ -1,0 +1,47 @@
+body {
+  background: #212121;
+  font-family: sans-serif;
+}
+.header * {
+  margin: 2px;
+}
+.header  > .col-8{
+  margin-top: 40px;
+}
+ .footer {
+ background: #f8f9fa;
+ border: 1px solid silver;
+}
+form {
+  display: flex;
+  padding-top: 20px;
+  padding-bottom: 5px;
+}
+.input, .button-cs {
+  height: 50px;        /* одинаковая высота */
+  padding: 0;          /* убираем внутренние отступы */
+  margin: 0;
+  border-radius: 5px;    /* одинаковые углы */
+  box-sizing: border-box; /* учитываем border и padding в размерах */
+}
+.button-cs {
+  width: 150px;
+  background: #d8e2f0;
+  color: #2c2d2e;
+}
+.input {
+  width: 600px;
+  margin-right: 20px;
+  color: grey;
+  padding: 10px 15px; 
+  font-size: 16px; 
+  box-sizing: border-box; 
+}
+.comment {
+  font-size: 12px;
+  color: grey; 
+}
+.foot-link{
+  font-size: 10px;
+  margin-top: 10px;
+}
