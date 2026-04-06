@@ -1,7 +1,7 @@
 vite:
 	npm run dev
 install:
-	npm ci
+	npm install
 build:
 	npx vite build
 lint:
