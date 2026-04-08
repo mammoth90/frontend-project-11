@@ -1,10 +1,12 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/mammoth90/frontend-project-11/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/mammoth90/frontend-project-11/actions)",
+  "description": "[![Actions Status](https://github.com/mammoth90/frontend-project-11/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/mammoth90/frontend-project-11/actions) [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=mammoth90_frontend-project-11)](https://sonarcloud.io/summary/new_code?id=mammoth90_frontend-project-11)",
   "main": "index.html",
   "scripts": {
     "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,13 +19,12 @@
     "url": "https://github.com/mammoth90/frontend-project-11/issues"
   },
   "homepage": "https://github.com/mammoth90/frontend-project-11#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  },
   "devDependencies": {
-    "@eslint/css": "^1.1.0",
-    "@eslint/js": "^10.0.1",
-    "@eslint/json": "^1.2.0",
-    "bootstrap": "^5.3.8",
     "eslint": "^10.2.0",
     "globals": "^17.4.0",
-    "vite": "^8.0.3"
+    "vite": "^8.0.7"
   }
 }
