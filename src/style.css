@@ -18,11 +18,10 @@ form {
   padding-bottom: 5px;
 }
 .input, .button-cs {
-  /* height: 50px;        /* одинаковая высота */ */
-  padding: 0;          /* убираем внутренние отступы */
-  margin: 0;
-  border-radius: 5px;    /* одинаковые углы */
-  box-sizing: border-box; /* учитываем border и padding в размерах */
+  padding: 0px;
+  margin: 0px;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 .button-cs {
   width: 150px;
