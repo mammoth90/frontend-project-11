@@ -14,11 +14,11 @@ body {
 }
 form {
   display: flex;
-  padding-top: 20px;
+  padding-top: 10px;
   padding-bottom: 5px;
 }
 .input, .button-cs {
-  height: 50px;        /* одинаковая высота */
+  /* height: 50px;        /* одинаковая высота */ */
   padding: 0;          /* убираем внутренние отступы */
   margin: 0;
   border-radius: 5px;    /* одинаковые углы */
@@ -33,7 +33,7 @@ form {
   width: 600px;
   margin-right: 20px;
   color: grey;
-  padding: 10px 15px; 
+  padding: 0px; 
   font-size: 16px; 
   box-sizing: border-box; 
 }
@@ -44,4 +44,12 @@ form {
 .foot-link{
   font-size: 10px;
   margin-top: 10px;
+}
+.red {
+  color: red;
+  font-size: 12px;
+}
+.green {
+  color: green;
+  font-size: 12px;
 }
