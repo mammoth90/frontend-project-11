@@ -21,6 +21,8 @@
   "homepage": "https://github.com/mammoth90/frontend-project-11#readme",
   "dependencies": {
     "bootstrap": "^5.3.8",
+    "classnames": "^2.5.1",
+    "i18next": "^26.0.5",
     "valtio": "^2.3.1",
     "yup": "^1.7.1"
   },
