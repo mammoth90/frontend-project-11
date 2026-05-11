@@ -1,5 +1,6 @@
+import { proxy } from 'valtio/vanilla'
 
-export default  {
+const state = {
   ui: 'ru',
   form: {
       validation:{
@@ -11,5 +12,10 @@ export default  {
         value: ''
       },
     },
-  feeds: []
+  feedsLink: [],
+  feeds: [],
+  items: [],
+  activeFeed:''
 }
+
+export default proxy(state)

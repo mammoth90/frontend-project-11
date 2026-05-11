@@ -1,23 +1,27 @@
 import * as yup from 'yup'
-import { subscribe, snapshot, proxy } from 'valtio/vanilla'
-import  globalState from './state.js'
+import { subscribe, snapshot } from 'valtio/vanilla'
+import  state from './state.js'
 import i18next from 'i18next'
 import { resources } from './resources.js'
 import classNames from 'classnames'
-
-const state = proxy(globalState)
+import getFeeds from './feeds.js'
 
 
   const validation =  (value, i18n) => {
+    console.log('CURRENT VALUE', value)
+    console.log('SATE before validation:',snapshot(state))
       const { link } = value
     validationSchema.validate(value).then(() => {
       if(!hasFeed(link)){
-      state.feeds.push(link)
+        console.log("HERE!")
+      state.feedsLink.push(link)
       state.form.validation.status = 'passed'
       state.form.validation.message = i18n.t('messages.added')
       state.form.process.value = ''
+      getFeeds(i18n, link)
       }
       else {
+        console.log('HERE! NOT PASEED')
       state.form.validation.status = 'notPassed'
       state.form.validation.message = i18n.t('messages.exist')
       state.form.process.value = link
@@ -27,11 +31,11 @@ const state = proxy(globalState)
       state.form.validation.message = e.message
       state.form.process.value = link
     })
+    console.log('STATE after:', snapshot(state))
   }
 
-
   const hasFeed = (feed) => {
-  const result = state.feeds.filter(el => el === feed)
+  const result = state.feedsLink.filter(el => el === feed)
     if (result.length > 0) {
       return true
     }
@@ -52,14 +56,18 @@ const validationState = (el) => {
       el.className = 'red'
       el.textContent = state.form.validation.message
       break
+    case 'feeds_error':
+      el.className = 'red'
+      el.textContent = state.form.validation.message
+      break
     default:
       el.textContent = ''
   }
  }
 
- const render = (root, state, i18n) => {
+ const renderHead = (root, state, i18n) => {
+   root.innerHTML = ''
   const currentState = snapshot(state)
-  console.log('CURRENT STATE:', currentState)
   const h1El = document.createElement('h1')
   h1El.textContent = i18n.t('page.title')
 
@@ -85,20 +93,10 @@ const validationState = (el) => {
     'is-valid': currentState.form.validation.status === 'passed',
     'is-invalid': currentState.form.validation.status === 'notPassed',
   })
-  // inputText.className = 'input form-control'
   inputText.id = 'floatingInput'
   inputText.className = cn
   inputText.name = 'link'
   inputText.value = currentState.form.process.value
-   // if (currentState.form.validation.status === 'passed') {
-  //   inputText.classList.add('is-valid')
-  // }
-  // if (currentState.form.validation == 'notPassed') {
-  //   inputText.classList.add('is-invalid')
-  // }
-  // if (currentState.form.process.status === 'exist') {
-  //   inputText.value = currentState.form.value
-  // }
 
   const labelEl = document.createElement('label')
   labelEl.setAttribute('for', 'floatingInput')  
@@ -106,7 +104,7 @@ const validationState = (el) => {
 
   const inputBtn = document.createElement('input')
   inputBtn.type = 'submit'
-  inputBtn.classList.add('btn', 'btn-ligt', 'button-cs')
+  inputBtn.classList.add('btn', 'btn-primary', 'button-cs')
   inputBtn.value = i18n.t('page.button')
 
   root.innerHTML = ''
@@ -117,7 +115,7 @@ const validationState = (el) => {
   formEl.appendChild(inputBtn)
   root.appendChild(formEl)
   root.appendChild(h6El)
-  if (commentEl){
+  if (commentEl.textContent !== ''){
     root.appendChild(commentEl)
   }
 
@@ -127,21 +125,69 @@ const validationState = (el) => {
     const link = data.get('link').trim()
     validation({ link }, i18n)
   })
-
-  formEl.addEventListener('focusout', () => {
-    // state.form.validation = null
-    // state.form.process.status = null
-    console.log('STATE', currentState)
-  })
-
 }
 
-function runApp (i18n) {
-const divEl = document.getElementById('div-form')
-render(divEl, state, i18n)
+const renderFeeds = (root, state, i18n) => {
+    root.innerHTML = ''
+    const currentState = snapshot(state)
+    const h5El = document.createElement('h5')
+    h5El.textContent = i18n.t('page.feedsTitle')
+    const ulEl = document.createElement('ul')
+    ulEl.className = classNames('feeds-list')
+    currentState.feeds.forEach(feed => {
+      const title = document.createElement('p')
+      title.className = classNames('feed-title')
+      title.textContent = feed.title
+      const desc = document.createElement('p')
+      desc.className = classNames('feed-desc')
+      desc.textContent = feed.description
+      const liEl = document.createElement('li')
+      liEl.append(title, desc)
+      ulEl.appendChild(liEl)
+    })
+    root.append(h5El, ulEl)
+}
 
-subscribe(state, () => {
-  render(divEl, state, i18n)
+const renderItems =  (root, state, i18n) => {
+  root.innerHTML = ''
+  const currentState = snapshot(state)
+  const items = currentState.items.find(item => item.feedId === currentState.activeFeed)
+  const h5El = document.createElement('h5')
+  h5El.textContent = i18n.t('page.postsTitle')
+  const ulEl = document.createElement('ul')
+  ulEl.className = classNames('items-list')
+  items.posts.forEach(item => {
+    const title = document.createElement('span')
+    title.textContent = item.title
+    const link = document.createElement('a')
+    link.target= '_blank'
+    link.rel = 'noopener noreferrer'
+    link.textContent = 'Просмотр'
+    link.className = classNames('btn', 'btn-outline-primary', 'btn-sm')
+    link.href = item.link
+    const liEl = document.createElement('li')
+    liEl.className = classNames('li-item')
+
+    liEl.append(title, link)
+    ulEl.append(liEl)
+  })
+  root.append(h5El, ulEl) 
+}
+
+async function  runApp (i18n) {
+const divEl = document.getElementById('div-form')
+const feedsDiv = document.getElementById('feeds')
+const postDiv = document.getElementById('posts')
+renderHead(divEl, state, i18n)
+
+subscribe(state.form, () => {
+  renderHead(divEl, state, i18n)
+})
+subscribe(state.feeds, () => {
+  renderFeeds(feedsDiv, state, i18n)
+})
+subscribe(state.items, () => {
+  renderItems(postDiv, state, i18n)
 })
 }
 

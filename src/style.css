@@ -37,6 +37,7 @@ form {
   box-sizing: border-box; 
 }
 .comment {
+  text-align: left;
   font-size: 12px;
   color: grey; 
 }
@@ -51,4 +52,40 @@ form {
 .green {
   color: green;
   font-size: 12px;
+}
+.content h5 {
+  text-align: left;
+  padding-top: 30px;
+  padding-left: 30px;
+}
+.feeds-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  text-align: left;
+}
+.feeds-list > li p {
+  margin: 2px 0px;
+}
+.feed-title {
+  font-weight: bold;
+  font-size: 12px;
+}
+.feed-desc {
+  font-style: italic;
+  margin-top: 3px;
+  font-size: 10px;
+  color: grey;
+}
+.items-list {
+  list-style: none;
+  display: block;
+  text-align: left;
+}
+.li-item {
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
 }
